@@ -18,8 +18,9 @@ import PageLoader from "@/components/PageLoader";
 
 export default function Home() {
   const dispatch = useDispatch();
-  const { homeData, status } = useSelector((state) => state.home);
+  const { homeData, status, error } = useSelector((state) => state.home);
 
+  
   useEffect(() => {
     if (status === "idle") {
       dispatch(fetchHomePageData());
@@ -28,6 +29,14 @@ export default function Home() {
 
   if (status === "idle" || status === "loading") {
     return <PageLoader />;
+  }
+
+  if (status === "failed") {
+    return (
+      <div className="p-10 text-center text-red-500">
+        Failed to load home page. {error ? `(${error})` : ""}
+      </div>
+    );
   }
 
   return (

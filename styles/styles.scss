@@ -149,6 +149,22 @@ button:focus {
 	background: var(--primary-clr);
 }
 
+/* Ensure hero slider dots are visible */
+.hero-media-slider .swiper-pagination-bullet {
+	width: 10px;
+	height: 10px;
+	background: rgba(255, 255, 255, 0.45);
+	opacity: 1;
+}
+
+.hero-media-slider .swiper-pagination {
+	z-index: 60;
+}
+
+.hero-media-slider .swiper-pagination-bullet-active {
+	background: var(--primary-clr);
+}
+
 .StockCard {
 	--tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
     --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);

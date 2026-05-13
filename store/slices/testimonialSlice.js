@@ -5,15 +5,15 @@ export const fetchTestimonials = createAsyncThunk(
   "testimonials/fetch",
   async (_, { rejectWithValue }) => {
     try {
-      const res = await fetch(`${url.BASE_URL}/api/testimonials`);
+      const res = await fetch(`${url.BASE_URL}/api/site/testimonials`);
 
       const data = await res.json();
 
-      if (!res.ok || !data.status) {
+      if (!res.ok || !data.success) {
         return rejectWithValue(data.message || "Failed to fetch testimonials");
       }
 
-      return data.data; // 👈 return only useful data
+      return data.data || [];
     } catch (error) {
       return rejectWithValue("Network error");
     }
@@ -25,8 +25,8 @@ const testimonialSlice = createSlice({
   initialState: {
     loading: false,
     error: null,
-    data: null,        // full data object
-    list: [],          // testimonials list shortcut
+    data: null,
+    list: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -38,11 +38,11 @@ const testimonialSlice = createSlice({
       .addCase(fetchTestimonials.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
-        state.list = action.payload.list || [];
+        state.list = Array.isArray(action.payload) ? action.payload : [];
       })
       .addCase(fetchTestimonials.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload;
+        state.error = action.payload || "Failed to fetch testimonials";
       });
   },
 });

@@ -14,13 +14,25 @@ export const fetchHomePageData = createAsyncThunk(
   "home/fetchHomePageData",
   async (_, { rejectWithValue }) => {
     try {
-      const data = await API.get("/api/homepage/landing");
-      if (!data.status) {
-        return rejectWithValue(data.message);
+      const res = await API.get("/api/homepage/landing");
+
+      // Backend responses in this codebase usually use `success`,
+      // but this thunk was checking `status` which can cause rejection.
+      const ok = res?.success ?? res?.status;
+      // If backend doesn't return any success/status flag, but does return payload,
+      // treat it as success.
+      if (ok === undefined) {
+        if (!res?.data && !res?.banner) {
+          return rejectWithValue(res?.message || "Failed to fetch home page");
+        }
+      } else if (!ok) {
+        return rejectWithValue(res?.message || "Failed to fetch home page");
       }
-      return data.data;
+
+      // Prefer `res.data` when present; otherwise allow returning the payload directly.
+      return res?.data ?? res;
     } catch (error) {
-      return rejectWithValue("Something went wrong");
+      return rejectWithValue(error?.message || "Something went wrong");
     }
   }
 );
@@ -32,15 +44,20 @@ export const fetchBanners = createAsyncThunk(
   "home/fetchBanners",
   async (_, { rejectWithValue }) => {
     try {
-      const data = await API.get("/api/banners");
-      
-      if (!data.status) {
-        return rejectWithValue(data.message);
+      const res = await API.get("/api/banners");
+
+      const ok = res?.success ?? res?.status;
+      if (ok === undefined) {
+        if (!res?.data && !Array.isArray(res)) {
+          return rejectWithValue(res?.message || "Failed to fetch banners");
+        }
+      } else if (!ok) {
+        return rejectWithValue(res?.message || "Failed to fetch banners");
       }
 
-      return data.data; // array of banners
+      return res?.data ?? res; // array of banners
     } catch (error) {
-      return rejectWithValue("Failed to fetch banners");
+      return rejectWithValue(error?.message || "Failed to fetch banners");
     }
   }
 );

@@ -43,9 +43,6 @@ export const fetchFooter = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const data = await API.get("/api/footer");
-
-      console.log("/api/footer", data);
-
       if (!data.success) {
         return rejectWithValue({
           message: "No footer data received",

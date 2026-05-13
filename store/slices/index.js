@@ -9,8 +9,8 @@ import unlistedShareReducer from "./unlistedShareSlice";
 import preIpoShareReducer from "./preIpoSlice";
 import blogReducer from "./blogSlice";
 import partnerReducer from "./partnerSlice";
+import testimonialReducer from "./testimonialSlice";
 // import contactReducer from "./contactSlice";
-// import testimonialReducer from "./testimonialSlice";
 
 
 const appReducer = combineReducers({
@@ -22,8 +22,8 @@ const appReducer = combineReducers({
   auth: authReducer,
   blog: blogReducer,
   partner: partnerReducer,
+  testimonials: testimonialReducer,
   // contact: contactReducer,
-  // testimonials: testimonialReducer,
   // services: servicesReducer,
 
 });
