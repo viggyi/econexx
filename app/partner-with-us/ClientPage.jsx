@@ -196,11 +196,12 @@ export default function PartnerPage() {
                       variant="secondary"
                       size="lg"
                       className="flex items-center gap-2"
-                      onClick={() =>
-                        document
-                          .getElementById("apply")
-                          ?.scrollIntoView({ behavior: "smooth" })
-                      }
+                      href="https://admin.econexxwealth.com/partners"
+                      // onClick={() =>
+                      //   document
+                      //     .getElementById("apply")
+                      //     ?.scrollIntoView({ behavior: "smooth" })
+                      // }
                     >
                       <Handshake size={16} />
                       Become a Partner
